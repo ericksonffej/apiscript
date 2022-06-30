@@ -1,0 +1,17 @@
+XlsxWriter
+certifi
+charset-normalizer
+click
+click-plugins
+colorama
+dnspython
+idna
+pdfkit
+pip
+pytz
+requests
+setuptools
+shodan
+termcolor
+urllib3
+wheel

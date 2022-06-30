@@ -1,0 +1,159 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {font-family: roboto;}
+
+        /* Style the tab */
+        .tab { overflow: hidden; border: 1px solid #ccc; background-color: #000000; }
+
+        /* Style the buttons inside the tab */
+        .tab button { background-color: inherit; float: left; border: none; outline: none; cursor: pointer;
+        padding: 14px 16px; transition: 0.3s; font-size: 17px; font-text: roboto; color: #ffffff; }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover { background-color: #ddd; }
+
+        /* Create an active/current tablink class */
+        .tab button.active { background-color: #000000; }
+
+        /* Style the tab content */
+
+        .tabcontent {display: none; padding: 6px 12px; border: 1px solid #ccc; border-top: none; }
+
+        table { font-family: roboto, sans-serif; border-collapse: collapse; width: 100%;}
+        th {background-color: #D6EAF8;}
+        td, th { border: 1px solid #dddddd; text-align: left; padding: 6px;}
+
+        h2 {font: 25px roboto, Geneva, Helvetica, sans-serif; font-weight: bold; padding:
+        2px;border-bottom: 1px solid #aaaaaa;}
+
+        .header {overflow: hidden;background-color:#000000;padding: 5px 5px;color: #ffffff;text-align: center}
+        .title {overflow: hidden;background-color:#CACFD2;padding: 5px 5px;color: #000000;}
+
+        .collapsible {background-color: #000000; color: white;cursor: pointer;padding: 18px;border: none;
+        width:10%;text-align: center;outline: none;font-size: 15px;font-weight: bold;}
+
+        .active, .collapsible:hover {background-color: #555;}
+
+        .content {padding: 0 18px;display: none;overflow: hidden;}
+
+        body {  font-family: roboto, Helvetica, sans-serif;}
+        #myBtn {display: none;position: fixed;bottom: 20px;right: 30px;z-index: 99;font-size: 18px;
+        border: none;outline: none;background-color: red;color: white;cursor: pointer;padding: 15px;
+        border-radius: 4px;}
+        #myBtn:hover {background-color: #555;}
+    </style>
+
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
+
+    <script>
+        var mybutton = document.getElementById("myBtn");
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+        } else {
+        mybutton.style.display = "none";}
+        }
+        function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;}
+    </script>
+
+    <div class="header">
+        <font size=7><b><u>SecurityOps</u></b></font><br>
+        <font size=6><b>A&nbsp N&nbsp A&nbsp L&nbsp Y&nbsp S&nbsp I&nbsp S</b></font>
+    </div><br>
+
+    <h2>Report Summary</h2>
+    <table>
+        <tr><td style="width:20%">User Group</td><td>Security Operations</td></tr>
+        <tr><td>Reference Ticket</td><td>ITE123456</td></tr>
+        <tr><td>Target</td><td>https://espcablesolvtions.com/log.php</td></tr>
+        <tr><td>Date Generated</td><td>30/06/2022 22:53:47 PST</td></tr>
+        <tr><td>Scanner</td><td>API-OSINT Automater (Python3)</td></tr>
+		<tr><td>Version</td><td>v.0.1</td></tr>
+    </table>
+
+    <br><h2>Security Vendors' Analysis</h2>
+    <table>
+        <tr><td style="width:20%">[+] VirusTotal<font size=2 color=#808080><i> &nbsp (URL, IP address, Domain and Hash)</i></font></td><td>Security vendors found it as <font color=#ff0000>Malicious</font></td></tr>
+        <tr><td style="width:20%">[+] AbuseIPDB<font size=2 color=#808080><i> &nbsp (IP address and Domain)</i></font></td><td></td></tr><!--AbuseIPDB-->
+        <tr><td style="width:20%">[+] Shodan<font size=2 color=#808080><i> &nbsp (IP address)</i></font></td><td></td></tr><!--Shodan-->
+        <tr><td style="width:20%">[+] URLScanIO<font size=2 color=#808080><i> &nbsp (URL)</i></font></td><td></td></tr><!--URLScanIO-->
+        <tr><td style="width:20%">[+] GreyNoise<font size=2 color=#808080><i> &nbsp (IP address)</i></font></td><td></td></tr><!--GreyNoise-->
+        <tr><td style="width:20%">[+] IBM X-Force<font size=2 color=#808080><i> &nbsp (URL, IP address and Domain)</i></font></td><td>X-Force URL Report: Risk Unknown</td></tr>
+    </table>
+
+    <br><h2>Detailed Information</h2>
+
+    <div class='tab'>
+        <button class="tablinks" onclick="openCity(event, 'VirusTotal')">VirusTotal</button>
+        <button class="tablinks" onclick="openCity(event, 'AbuseIPDB')">AbuseIPDB</button>
+        <button class="tablinks" onclick="openCity(event, 'Shodan')">Shodan</button>
+        <button class="tablinks" onclick="openCity(event, 'URLScanIO')">URLScanIO</button>
+        <button class="tablinks" onclick="openCity(event, 'GreyNoise')">GreyNoise</button>
+        <button class="tablinks" onclick="openCity(event, 'IBM X-Force')">IBM X-Force</button>
+        <button class="tablinks" onclick="openCity(event, 'Others')">Others</button>
+    </div>
+    <script>
+        function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";}
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");}
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+        }
+    </script>
+<div id="VirusTotal" class="tabcontent" style="display:block">
+<br>
+
+<table><tr><th colspan=2><b>SUMMARY</b></th></tr>
+<tr><td width=20%; text-align="right"><b>Score</b></td><td>
+10
+/
+94
+</td></tr>
+<tr><td><b>Last Analysis Date</b></td><td>
+2022-06-01 06:10:29
+</td></tr>
+<tr><td><b>Virus Total</b></td><td><a href="
+https://www.virustotal.com/gui/url/5b05b356126ad60f86de622fabb4b7fe9c3e1d77a4504baf0cec30c7bd1d0731/detection/u-5b05b356126ad60f86de622fabb4b7fe9c3e1d77a4504baf0cec30c7bd1d0731-1654063829
+" target="_blank"> View Full Report</a></td></tr><table><br>
+<table><tr><th colspan=5><b>SCAN</b></th></tr>
+<tr><td><b>Scanner</b></td><td><b>Detected</b></td><td><b>Version</b></td><td><b>Result</b></td><td><b>Update</b></td></tr>
+
+<tr><td>Scantitan</td><td>True</td><td>None</td><td><font color=#ff0000><b>phishing site</b></font></td><td>None</td></tr>
+
+<tr><td>Sophos</td><td>True</td><td>None</td><td><font color=#ff0000><b>phishing site</b></font></td><td>None</td></tr>
+
+<tr><td>CRDF</td><td>True</td><td>None</td><td><font color=#ff0000><b>malicious site</b></font></td><td>None</td></tr>
+
+<tr><td>Fortinet</td><td>True</td><td>None</td><td><font color=#ff0000><b>phishing site</b></font></td><td>None</td></tr>
+
+<tr><td>Lionic</td><td>True</td><td>None</td><td><font color=#ff0000><b>phishing site</b></font></td><td>None</td></tr>
+
+<tr><td>Emsisoft</td><td>True</td><td>None</td><td><font color=#ff0000><b>phishing site</b></font></td><td>None</td></tr>
+
+<tr><td>Avira</td><td>True</td><td>None</td><td><font color=#ff0000><b>phishing site</b></font></td><td>None</td></tr>
+
+<tr><td>Kaspersky</td><td>True</td><td>None</td><td><font color=#ff0000><b>phishing site</b></font></td><td>None</td></tr>
+
+<tr><td>Netcraft</td><td>True</td><td>None</td><td><font color=#ff0000><b>malicious site</b></font></td><td>None</td></tr>
+
+<tr><td>ESET</td><td>True</td><td>None</td><td><font color=#ff0000><b>phishing site</b></font></td><td>None</td></tr>
+
+</table></div>
+<div id="IBM X-Force" class="tabcontent"><br><table><tr><th colspan=2><b>X-Force URL Report</b></th></tr><tr><td width=20%; text-align="right"><b>URL</b></td><td>
+https://espcablesolvtions.com/log.php
+</td></tr><tr><td><b>Risk Score</b></td><td>Risk Unknown</td></tr></table><br><table><tr><th colspan=2><b>Details</b></th></tr><tr><td width=20%; text-align="right"><b>Categorization</b></td><td>Unknown</td></tr></table><br><table><tr><th colspan=2><b>WHOIS Record</b></th></tr>
+<tr><td width=20%; text-align="right"><b>Created</b></td><td>2022-03-31T14:56:45.000Z</td></tr>
+<tr><td><b>Updated</b></td><td>2022-06-23T15:20:31.000Z</td></tr>
+<tr><td><b>Registrant Name</b></td><td>Contact Privacy Inc. Customer 7151571251</td></tr>
+<tr><td><b>Registrar Name</b></td><td>Google LLC</td></tr>
+<tr><td><b>Email</b></td><td>registrar-abuse@google.com</td></tr></table></div><br>
