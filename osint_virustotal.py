@@ -34,6 +34,14 @@ def get_vt_hash(hash_str: str, output_filename: str) -> None:
         print("[+] Exceeded quota. Skipping.")
         return
 
+    if resp.status_code == 403:
+        print("[+] Forbidden. You may be doing a request without providing an API key. ")
+        return
+
+    if resp.status_code == 400:
+        print("[+] Bad Request. Missing arguments or arguments with wrong values. ")
+        return
+
     # parse json result from API
     json_response = resp.json()
     x = str(json_response)
@@ -90,6 +98,14 @@ def get_vt_ip_url(url_or_ip: str, output_filename: str):
 
     if resp.status_code == 204:
         print("[+] Exceeded quota. Skipping.")
+        return
+
+    if resp.status_code == 403:
+        print("[+] Forbidden. You may be doing a request without providing an API key. ")
+        return
+
+    if resp.status_code == 400:
+        print("[+] Bad Request. Missing arguments or arguments with wrong values. ")
         return
 
     # parse json result from API

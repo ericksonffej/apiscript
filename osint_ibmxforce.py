@@ -40,6 +40,10 @@ def get_ibmxforce_ip(url_or_ip: str, output_filename: str):
     resp_ipaddr = requests.get(url_ipaddr, headers=header)
     resp_whois = requests.get(url_whois, headers=header)
 
+    if resp_ipaddr.status_code == 401:
+        print("[+] IBM X-Force: Not Authorized. Please check your API key.")
+        return
+
     parsed_ipaddr = resp_ipaddr.json()
     parsed_whois = resp_whois.json()
 
@@ -70,6 +74,10 @@ def get_ibmxforce_url(url_or_ip: str, output_filename: str):
 
     resp_url = requests.get(url, headers=header)
     resp_whois = requests.get(url_whois, headers=header)
+
+    if resp_url.status_code == 401:
+        print("[+] IBM X-Force: Not Authorized. Please check your API key.")
+        return
 
     parsed_whois = resp_whois.json()
 

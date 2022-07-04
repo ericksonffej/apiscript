@@ -45,6 +45,10 @@ def get_urlscan_ip_url(url_or_ip: str, output_filename: str):
         # get_urlscan_ip_url_search(url_or_ip, output_filename)
         return
 
+    if status_response == 401:
+        print(f'[+] URLScanIO: API key supplied but not found in database.')
+        return
+
     x = str(json_response)
     x = x.replace("'", '"')
 
@@ -66,7 +70,7 @@ def get_urlscan_ip_url(url_or_ip: str, output_filename: str):
     verdict_info = api_response.get("verdicts")
     malicious_code = verdict_info.get("overall").get("malicious")
     if malicious_code:
-        print('[+] urlscan.' + Fore.GREEN + 'io' + Fore.WHITE + 'Verdict' + Fore.RED + 'Malicious!!!' + Fore.WHITE)
+        print('[+] urlscan.' + Fore.GREEN + 'io ' + Fore.WHITE + 'Verdict ' + Fore.RED + 'Malicious!!!' + Fore.WHITE)
 
     write_dict_json_html_urlscan(target=url_or_ip, dict_obj=api_response, filename=f'{output_filename}')
 

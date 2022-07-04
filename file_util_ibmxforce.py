@@ -460,7 +460,9 @@ def write_dict_json_html_ibmxforce_url(target: str, dict_obj: dict, dict_obj1: d
         lines = f.readlines()
     with open(f'output/{res}', "w", encoding='utf-8') as f:
         for line in lines:
-            if score >= 6:
+            if score is None:
+                f.write(re.sub(r'<td></td></tr><!--X-Force-->', f"<td>X-Force URL Report: <font color=#008000>Risk Unknown</font></td></tr>", line))
+            elif score >= 6:
                 f.write(re.sub(r'<td></td></tr><!--X-Force-->', f"<td>X-Force URL Report: <font color=#ff0000>Risk {score}</font></td></tr>", line))
             elif score >= 3:
                 f.write(re.sub(r'<td></td></tr><!--X-Force-->', f"<td>X-Force URL Report: <font color=#FFA500>Risk {score}</font></td></tr>", line))
