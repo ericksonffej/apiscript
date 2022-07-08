@@ -43,12 +43,12 @@ def is_hash(target):
 
 def is_url(target):
     # validate url
-    if re.findall(
+    if re.findall(r"([\w\-\.]+)", target):
+        return True
+    elif re.findall(
             r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s("
             r")<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))",
             target):
-        return True
-    elif re.findall(r"([\w\-\.]+)", target):
         return True
     else:
         return False

@@ -12,16 +12,19 @@ def convert2pdf_url_or_ip(url_or_ip: str, output_filename: str) -> None:
 
     # output file name
     filename = f'{output_filename}'
-    output = f'{filename}_{target}.html'
+    output = f'{filename}_{target}'
 
     # remove special character
     res = re.sub("[://|?]", "", output)
 
-    path = Path(f'output/{res}')
+    final_output = re.search(r"([\w\-\.]+\.\w\w)", res)
+    final_res = final_output.group(0)
+
+    path = Path(f'output/{final_res}.html')
 
     if path.is_file():
         # convert html output to PDF format
-        pdfkit.from_file(f'output/{res}', f'output/{res}.pdf', configuration=config)
+        pdfkit.from_file(f'output/{final_res}.html', f'output/{final_res}.pdf', configuration=config)
     else:
         return
 
@@ -35,15 +38,17 @@ def convert2pdf_hash(hash_str: str, output_filename: str) -> None:
 
     # output file name
     filename = f'{output_filename}'
-    output = f'{filename}_{target}.html'
+    output = f'{filename}_{target}'
 
     # remove special character
     res = re.sub("[://|?]", "", output)
 
-    path = Path(f'output/{res}')
+    final_res = output
+
+    path = Path(f'output/{final_res}.html')
 
     if path.is_file():
         # convert html output to PDF format
-        pdfkit.from_file(f'output/{res}', f'output/{res}.pdf', configuration=config)
+        pdfkit.from_file(f'output/{final_res}.html', f'output/{final_res}.pdf', configuration=config)
     else:
         return

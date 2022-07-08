@@ -61,9 +61,15 @@ def main():
 
         for target in input_list:
             filename = args.ticket
-            output = f'{filename}_{target}.html'
+            output = f'{filename}_{target}'
             res = re.sub("[://|?]", "", output)
-            path = Path(f'output/{res}')
+            final_output = re.search(r"([\w\-\.]+\.\w\w)", res)
+            if final_output is None:
+                final_res = output
+            else:
+                final_res = final_output.group(0)
+
+            path = Path(f'output/{final_res}.html')
             print("===================================================================================")
             print(f'Target: {target}')
             # Validation if file already exists

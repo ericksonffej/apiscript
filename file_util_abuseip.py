@@ -7,9 +7,11 @@ from pathlib import Path
 def write_dict_json_html_abuseipdb(target: str, dict_obj: dict, dict_obj1: dict, filename: str) -> None:
     now = datetime.now(pytz.timezone('Asia/Manila'))
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S %Z")
-    output = f'{filename}_{target}.html'
+    output = f'{filename}_{target}'
     res = re.sub("[://|?]", "", output)
-    path = Path(f'output/{res}')
+    final_output = re.search(r"([\w\-\.]+\.\w\w)", res)
+    final_res = final_output.group(0)
+    path = Path(f'output/{final_res}.html')
 
     report = dict_obj1.get("data").get("results")
 
@@ -70,9 +72,9 @@ def write_dict_json_html_abuseipdb(target: str, dict_obj: dict, dict_obj1: dict,
                 rows.append(f"<h2>IP Abuse Reports for {ipAddress}</h2>")
                 rows.append(f"<p><i>The IP address has not been reported.</i></p><br></table>")
 
-                with open(f'output/{res}', "r", encoding='utf-8') as f:
+                with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
                     lines = f.readlines()
-                with open(f'output/{res}', "w", encoding='utf-8') as f:
+                with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
                     for line in lines:
                         f.write(re.sub(r'<td></td></tr><!--AbuseIPDB-->',
                                        f'<td>Target has not been reported.</td></tr>', line))
@@ -91,9 +93,9 @@ def write_dict_json_html_abuseipdb(target: str, dict_obj: dict, dict_obj1: dict,
                 rows.append(
                     f"<p>The IP address has been reported a total of <b>{totalReports}</b> times from <b>{numDistinctUsers}</b> distinct sources. The most recent report was <b>{lastReportedAt}</b>.</p>")
 
-                with open(f'output/{res}', "r", encoding='utf-8') as f:
+                with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
                     lines = f.readlines()
-                with open(f'output/{res}', "w", encoding='utf-8') as f:
+                with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
                     for line in lines:
                         f.write(re.sub(r'<td></td></tr><!--AbuseIPDB-->',
                                        f'<td>Reported <font color=#ff0000>{totalReports}</font> times. Confidence of Abuse: <font color=#ff0000>{abuseConfidenceScore}%</font></td></tr>',
@@ -123,7 +125,7 @@ def write_dict_json_html_abuseipdb(target: str, dict_obj: dict, dict_obj1: dict,
 
         rows.append(f'</table></div>')
 
-        write_to_file(filename=f'{filename}_{target}.html', rows=rows)
+        write_to_file(filename=f'{filename}_{target}', rows=rows)
     else:
         rows = [content,
                 "<div id=\"AbuseIPDB\" class=\"tabcontent\">"
@@ -191,45 +193,47 @@ def write_dict_json_html_abuseipdb(target: str, dict_obj: dict, dict_obj1: dict,
 
         rows.append(f'</table></div>')
 
-        write_to_file(filename=f'{filename}_{target}.html', rows=rows)
+        write_to_file(filename=f'{filename}_{target}', rows=rows)
 
         if r['totalReports'] == 0:
-            with open(f'output/{res}', "r", encoding='utf-8') as f:
+            with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
                 lines = f.readlines()
-            with open(f'output/{res}', "w", encoding='utf-8') as f:
+            with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
                 for line in lines:
                     f.write(
                         re.sub(r'<td></td></tr><!--AbuseIPDB-->', f'<td>Target has not been reported.</td></tr>', line))
         elif r['totalReports'] > 0:
-            with open(f'output/{res}', "r", encoding='utf-8') as f:
+            with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
                 lines = f.readlines()
-            with open(f'output/{res}', "w", encoding='utf-8') as f:
+            with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
                 for line in lines:
                     f.write(
                         re.sub(r'<td></td></tr><!--AbuseIPDB-->',
                                f'<td>Reported <font color=red>{totalReports}</font> times. Confidence of Abuse: <font color=#ff0000>{abuseConfidenceScore}%</font></td></tr>',
                                line))
 
-        with open(f'output/{res}', "r", encoding='utf-8') as f:
+        with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
             lines = f.read()
-        with open(f'output/{res}', "w", encoding='utf-8') as f:
+        with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
             f.write(re.sub(r'<td></td></tr><!--Ticket-->', f'<td>{filename}</td></tr>', lines))
 
-        with open(f'output/{res}', "r", encoding='utf-8') as f:
+        with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
             lines = f.read()
-        with open(f'output/{res}', "w", encoding='utf-8') as f:
+        with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
             f.write(re.sub(r'<td></td></tr><!--Target-->', f'<td>{target}</td></tr>', lines))
 
-        with open(f'output/{res}', "r", encoding='utf-8') as f:
+        with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
             lines = f.read()
-        with open(f'output/{res}', "w", encoding='utf-8') as f:
+        with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
             f.write(re.sub(r'<td></td></tr><!--Date-->', f'<td>{dt_string}</td></tr>', lines))
 
 
 def write_to_file(filename: str, rows: list) -> None:
     output = f'{filename}'
     res = re.sub("[://|?]", "", output)
+    final_output = re.search(r"([\w\-\.]+\.\w\w)", res)
+    final_res = final_output.group(0)
     # print(f'[+] Writing to file {output}...')
-    with open(f'output/{res}', 'a', encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', 'a', encoding='utf-8') as f:
         for row in rows:
             f.write(f'{row}\n')

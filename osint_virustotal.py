@@ -89,8 +89,10 @@ def get_vt_ip_url(url_or_ip: str, output_filename: str):
         print("[+] VirusTotal website is not reachable!")
         return e
 
+    target_url = url_or_ip.replace('&', '%26')
+
     # prepare API parameters
-    params = {'apikey': KEY, 'resource': url_or_ip}
+    params = {'apikey': KEY, 'resource': target_url}
     # call API
     resp = requests.get('https://www.virustotal.com/vtapi/v2/url/report', params=params)
 

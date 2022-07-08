@@ -7,9 +7,11 @@ from pathlib import Path
 def write_dict_json_html_urlscan(target: str, dict_obj: dict, filename: str) -> None:
     now = datetime.now(pytz.timezone('Asia/Manila'))
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S %Z")
-    output = f'{filename}_{target}.html'
+    output = f'{filename}_{target}'
     res = re.sub("[://|?]", "", output)
-    path = Path(f'output/{res}')
+    final_output = re.search(r"([\w\-\.]+\.\w\w)", res)
+    final_res = final_output.group(0)
+    path = Path(f'output/{final_res}.html')
 
     # relevant aggregate data
     verdict_info = dict_obj.get("verdicts")
@@ -192,34 +194,36 @@ def write_dict_json_html_urlscan(target: str, dict_obj: dict, filename: str) -> 
         rows.append(f"}}")
         rows.append(f"</script>")
 
-    write_to_file(filename=f'{filename}_{target}.html', rows=rows)
+    write_to_file(filename=f'{filename}_{target}', rows=rows)
 
-    with open(f'output/{res}', "r", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
         lines = f.readlines()
-        with open(f'output/{res}', "w", encoding='utf-8') as f:
+        with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
             for line in lines:
                 f.write(re.sub(r'<td></td></tr><!--URLScanIO-->', f"<td>urlscan.<font color=#008000>io</font> Verdict: {verdict}</td></tr>", line))
 
-    with open(f'output/{res}', "r") as f:
+    with open(f'output/{final_res}.html', "r") as f:
         lines = f.read()
-    with open(f'output/{res}', "w", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
         f.write(re.sub(r'<td></td></tr><!--Ticket-->', f'<td>{filename}</td></tr>', lines))
 
-    with open(f'output/{res}', "r", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
         lines = f.read()
-    with open(f'output/{res}', "w", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
         f.write(re.sub(r'<td></td></tr><!--Target-->', f'<td>{target}</td></tr>', lines))
 
-    with open(f'output/{res}', "r", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
         lines = f.read()
-    with open(f'output/{res}', "w", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
         f.write(re.sub(r'<td></td></tr><!--Date-->', f'<td>{dt_string}</td></tr>', lines))
 
 
 def write_to_file(filename: str, rows: list) -> None:
     output = f'{filename}'
     res = re.sub("[://|?]", "", output)
+    final_output = re.search(r"([\w\-\.]+\.\w\w)", res)
+    final_res = final_output.group(0)
     # print(f'[+] Writing to file {output}...')
-    with open(f'output/{res}', 'a', encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', 'a', encoding='utf-8') as f:
         for row in rows:
             f.write(f'{row}\n')

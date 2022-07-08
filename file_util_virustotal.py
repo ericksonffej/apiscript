@@ -11,8 +11,13 @@ def write_dict_json_html(target: str, dict_obj: dict, filename: str) -> None:
     total = dict_obj["total"]
     positives = dict_obj["positives"]
     permalink = dict_obj["permalink"]
-    output = f'{filename}_{target}.html'
+    output = f'{filename}_{target}'
     res = re.sub("[://|?]", "", output)
+    final_output = re.search(r"([\w\-\.]+\.\w\w)", res)
+    if final_output is None:
+        final_res = output
+    else:
+        final_res = final_output.group(0)
 
     with open('template/template.html', "r") as f:
         content = f.read()
@@ -53,11 +58,11 @@ def write_dict_json_html(target: str, dict_obj: dict, filename: str) -> None:
 
     rows.append(f"</table></div>")
 
-    write_to_file(filename=f'{filename}_{target}.html', rows=rows)
+    write_to_file(filename=f'{filename}_{target}', rows=rows)
 
-    with open(f'output/{res}', "r") as f:
+    with open(f'output/{final_res}.html', "r") as f:
         lines = f.readlines()
-    with open(f'output/{res}', "w", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
         for line in lines:
             if positives == 0:
                 f.write(re.sub(r'<td></td></tr><!--VirusTotal-->',
@@ -67,19 +72,19 @@ def write_dict_json_html(target: str, dict_obj: dict, filename: str) -> None:
                                f'<td>Security vendors found it as <font color=#ff0000>Malicious</font></td></tr>',
                                line))
 
-    with open(f'output/{res}', "r", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
         lines = f.read()
-    with open(f'output/{res}', "w", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
         f.write(re.sub(r'<td></td></tr><!--Ticket-->', f'<td>{filename}</td></tr>', lines))
 
-    with open(f'output/{res}', "r", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
         lines = f.read()
-    with open(f'output/{res}', "w", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
         f.write(re.sub(r'<td></td></tr><!--Target-->', f'<td>{target}</td></tr>', lines))
 
-    with open(f'output/{res}', "r", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "r", encoding='utf-8') as f:
         lines = f.read()
-    with open(f'output/{res}', "w", encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', "w", encoding='utf-8') as f:
         f.write(re.sub(r'<td></td></tr><!--Date-->', f'<td>{dt_string}</td></tr>', lines))
 
 
@@ -104,8 +109,13 @@ def write_dict_json_csv_file(target: str, dict_obj: dict, filename: str) -> None
 def write_to_file(filename: str, rows: list) -> None:
     output = f'{filename}'
     res = re.sub("[://|?]", "", output)
+    final_output = re.search(r"([\w\-\.]+\.\w\w)", res)
+    if final_output is None:
+        final_res = output
+    else:
+        final_res = final_output.group(0)
     # print(f'[+] Writing to file {output}...')
-    with open(f'output/{res}', 'a', encoding='utf-8') as f:
+    with open(f'output/{final_res}.html', 'a', encoding='utf-8') as f:
         for row in rows:
             f.write(f'{row}\n')
 
@@ -116,6 +126,4 @@ def read_file() -> str:
     # return content
     with open('input/input.txt', "r", encoding='utf-8') as f:
         content = f.read().split()
-    # print(content)
-    # exit(1)
     return content
