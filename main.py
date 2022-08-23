@@ -11,7 +11,6 @@ from osint_urlscan import get_urlscan_ip_url
 from validate import check_hash, check_vt_url, is_hash, is_ip, is_url
 from osint_virustotal import get_vt_hash, get_vt_ip_url
 
-
 def main():
     parser = argparse.ArgumentParser(description="API SCRIPT Help Check")
     parser.add_argument('-T', '--ticket', required=True,
@@ -26,8 +25,9 @@ def main():
                         help='File input')
     args = parser.parse_args()
 
-    print(f'Reference Ticket: {args.ticket}')
-    print("===================================================================================")
+    # displayed in GUI
+    # print(f'Reference Ticket: {args.ticket}')
+    # print("===================================================================================")
 
     if args.hash:
         print(f'Input HASH: {args.hash}')
