@@ -77,42 +77,36 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit_2.appendPlainText(str(result, 'utf-8'))
     
     def investigate_iocs(self):
-        self.ui.plainTextEdit_2.setReadOnly(False)
-        self.ui.pushButton.setEnabled(False)
         self.ui.plainTextEdit_2.clear()
+        self.ui.plainTextEdit_2.setReadOnly(False)
         if self.ui.textEdit.toPlainText() == "":
             ref_id = str(dt.now().isoformat('_'))
         else:
             ref_id = re.sub('[^A-Za-z0-9]+', '', self.ui.textEdit.toPlainText()) 
+        self.ui.pushButton.setDisabled(True)
         if self.ui.plainTextEdit.toPlainText() == '':
             self.ui.plainTextEdit_2.appendPlainText('[-] ERROR: Please insert at least 1 IoC')
             self.ui.plainTextEdit_2.setReadOnly(True)
-            self.ui.pushButton.setEnabled(True)
+            self.ui.pushButton.setDisabled(False)
             return
         iocs = self.ui.plainTextEdit.toPlainText().split("\n")
-        if len(iocs) > 4:
-            self.ui.plainTextEdit_2.appendPlainText('[-] ERROR: More than 4 IoCs are not allowed')
-            self.ui.plainTextEdit_2.setReadOnly(True)
-            self.ui.pushButton.setEnabled(True)
-            return
-        iocs = [string for string in iocs if string != '']
         commands = []
         for ioc in iocs:
             if is_hash(ioc):
                 prompt = f"main.py --ticket {ref_id} --hash {ioc}"
                 commands.append(prompt)
             elif is_ip(ioc):
-                prompt = f"main.py --ticket {ref_id} --ip-address {ioc}"
+                prompt = f"main.py --ticket {ref_id} --ip {ioc}"
                 commands.append(prompt)
             elif is_url(ioc):
                 prompt = f"main.py --ticket {ref_id} --url {ioc}"
                 commands.append(prompt)
             else:
-                self.ui.plainTextEdit_2.appendPlainText(f'[-] ERROR: Skipping invalid IoC or empty line')
+                self.ui.plainTextEdit_2.appendPlainText(f'[+] Error: Skipping invalid format')
         func = partial(self.manager.start, commands)
         func()
         self.ui.plainTextEdit_2.setReadOnly(True)
-        self.ui.pushButton.setEnabled(True)
+        self.ui.pushButton.setDisabled(False)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

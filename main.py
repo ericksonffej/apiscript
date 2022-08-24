@@ -8,7 +8,7 @@ from osint_shodan import get_shodan_ip_url
 from file_util_virustotal import read_file
 from osint_abuseipdb import get_abuseipdb_ip
 from osint_urlscan import get_urlscan_ip_url
-from validate import check_hash, check_vt_url, is_hash, is_ip, is_url, check_vt_ip
+from validate import check_hash, check_vt_url, is_hash, is_ip, is_url
 from osint_virustotal import get_vt_hash, get_vt_ip_url
 
 def main():
@@ -19,7 +19,7 @@ def main():
                         help='Single Hash example: 6a8401448a5bd2b540850f811b20a66d')
     parser.add_argument('-U', '--url', type=check_vt_url, required=False,
                         help='url or website example: www.17ebook.com')
-    parser.add_argument('-IP', '--ip-address', type=check_vt_ip, required=False,
+    parser.add_argument('-IP', '--ip-address', type=check_vt_url, required=False,
                         help='IP Address example: 192.168.1.1')
     parser.add_argument('-F', '--file', required=False,
                         help='File input')

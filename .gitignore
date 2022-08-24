@@ -1,6 +1,6 @@
-.apiscript
-.idea
-__pycache__/
-output
-api_configuration
+.apiscript/**
+.idea/*/**
+__pycache__/**
+output/**
+api_configuration/**
 *.code-workspace
