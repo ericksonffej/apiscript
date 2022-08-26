@@ -4,3 +4,4 @@ __pycache__/
 output
 api_configuration
 *.code-workspace
+*.ui

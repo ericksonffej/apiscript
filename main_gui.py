@@ -1,5 +1,7 @@
 import os
 import sys
+import subprocess
+import qdarktheme
 from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PySide6.QtCore import QFile, QProcess, Signal, QObject, QByteArray
 from apiscript_gui import Ui_MainWindow
@@ -65,6 +67,7 @@ class MainWindow(QMainWindow):
     def connect_signals_slots(self):
         self.ui.menuAbout.triggered.connect(self.about)
         self.ui.pushButton.clicked.connect(self.investigate_iocs)
+        self.ui.pushButton_2.clicked.connect(self.open_output_folder)
         self.manager.resultsChanged.connect(self.on_results_changed)
     
     def about(self):
@@ -72,6 +75,9 @@ class MainWindow(QMainWindow):
         "About OSINT APIScript",
         "<p> Made with Python </p>",
         )
+
+    def open_output_folder(self):
+        subprocess.run(['explorer', os.getcwd() + '\output'])
     
     def on_results_changed(self, result):
         self.ui.plainTextEdit_2.appendPlainText(str(result, 'utf-8'))
@@ -80,10 +86,10 @@ class MainWindow(QMainWindow):
         self.ui.plainTextEdit_2.setReadOnly(False)
         self.ui.pushButton.setEnabled(False)
         self.ui.plainTextEdit_2.clear()
-        if self.ui.textEdit.toPlainText() == "":
+        if self.ui.plainTextEdit.toPlainText() == "":
             ref_id = str(dt.now().isoformat('_'))
         else:
-            ref_id = re.sub('[^A-Za-z0-9]+', '', self.ui.textEdit.toPlainText()) 
+            ref_id = re.sub('[^A-Za-z0-9]+', '', self.ui.plainTextEdit.toPlainText()) 
         if self.ui.plainTextEdit.toPlainText() == '':
             self.ui.plainTextEdit_2.appendPlainText('[-] ERROR: Please insert at least 1 IoC')
             self.ui.plainTextEdit_2.setReadOnly(True)
@@ -116,6 +122,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    app.setStyleSheet(qdarktheme.load_stylesheet())
     window = MainWindow()
     window.show()
 
