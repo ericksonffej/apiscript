@@ -1,6 +1,5 @@
 import re
 
-
 def check_hash(hsh):
     if is_hash(hsh):
         return hsh
@@ -14,7 +13,7 @@ def check_vt_url(url):
     if is_url(url):
         return url
     else:
-        print("[+]  Error: The URL input does not appear valid.")
+        print("[+] Error: The URL input does not appear valid.")
         exit(1)
 
 
@@ -43,20 +42,14 @@ def is_hash(target):
 
 def is_url(target):
     # validate url
-    if re.findall(r"([\w\-\.]+)", target):
-        return True
-    elif re.findall(
-            r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s("
-            r")<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))",
-            target):
+    regex = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)?(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
+    if re.findall(regex, target):
         return True
     else:
         return False
-
 
 def is_ip(target):
     # validate ip address
     if re.findall(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b", target):
         return True
-    else:
-        return False
+    return False
